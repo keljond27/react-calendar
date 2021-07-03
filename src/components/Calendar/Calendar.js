@@ -8,7 +8,7 @@ import {
   CONTROLS,
   CALENDAR_MONTHS,
   getMomentMonth,
-  calculateYearRange
+  calculateYearRange,
 } from "../../helpers/calendar";
 
 import CalendarControlHeader from "./CalendarControlHeader";
@@ -16,20 +16,28 @@ import CalendarWeekHeader from "./CalendarWeekHeader";
 import CalendarContextServer from "./CalendarContextServer";
 
 const Calendar = (props) => {
+  const yearGridCount = 12;
 
-  const yearGridCount = 12
-  
   const [calendarContext, setCalendarContext] = useState(0);
   const [month, setMonth] = useState(THIS_MONTH);
   const [year, setYear] = useState(THIS_YEAR);
   const [yearRange, setYearRange] = useState([]);
   const [yearRangeIndex, setYearRangeIndex] = useState([]);
-  
-  useEffect(() => {
-    let yearRangeData = calculateYearRange(year, yearGridCount)
+  const [yearRangeArray, setYearRangeArray] = useState([]);
+
+  const resetYearRangeData = (yearRangeData = null) => {
+    yearRangeData =
+      yearRangeData != null
+        ? yearRangeData
+        : calculateYearRange(year, yearGridCount);
     setYearRange([yearRangeData[0], yearRangeData[1]]);
     setYearRangeIndex(yearRangeData[2]);
-  }, [])
+    setYearRangeArray(yearRangeData[3]);
+  };
+
+  useEffect(() => {
+    resetYearRangeData();
+  }, []);
 
   const handleContextChange = () => {
     let context = 0;
@@ -47,22 +55,27 @@ const Calendar = (props) => {
     }
 
     setCalendarContext(context);
+    resetYearRangeData();
   };
 
   const handleDayViewControls = (controlname) => {
     switch (true) {
-      case controlname == CONTROLS.NEXT && month == CALENDAR_MONTHS.DECEMBER.index:
+      case controlname == CONTROLS.NEXT &&
+        month == CALENDAR_MONTHS.DECEMBER.index:
         setMonth(1);
         setYear(year + 1);
         break;
-      case controlname == CONTROLS.NEXT && month !== CALENDAR_MONTHS.DECEMBER.index:
+      case controlname == CONTROLS.NEXT &&
+        month !== CALENDAR_MONTHS.DECEMBER.index:
         setMonth(month + 1);
         break;
-      case controlname == CONTROLS.BACK && month == CALENDAR_MONTHS.JANUARY.index:
+      case controlname == CONTROLS.BACK &&
+        month == CALENDAR_MONTHS.JANUARY.index:
         setMonth(12);
         setYear(year - 1);
         break;
-      case controlname == CONTROLS.BACK && month !== CALENDAR_MONTHS.JANUARY.index:
+      case controlname == CONTROLS.BACK &&
+        month !== CALENDAR_MONTHS.JANUARY.index:
         setMonth(month - 1);
         break;
     }
@@ -74,17 +87,29 @@ const Calendar = (props) => {
   };
 
   const handleYearViewControls = (controlname) => {
-    let yearRangeData; 
+    let yearRangeData;
     if (controlname == CONTROLS.BACK) {
-      yearRangeData = calculateYearRange(year, yearGridCount, (yearRangeIndex - 1))
+      yearRangeData = calculateYearRange(
+        year,
+        yearGridCount,
+        yearRangeIndex - 1
+      );
     }
     if (controlname == CONTROLS.NEXT) {
-      yearRangeData = calculateYearRange(year, yearGridCount, (yearRangeIndex + 1))
+      yearRangeData = calculateYearRange(
+        year,
+        yearGridCount,
+        yearRangeIndex + 1
+      );
     }
-    setYearRange([yearRangeData[0], yearRangeData[1]]);
-    setYearRangeIndex(yearRangeData[2]);
+    resetYearRangeData(yearRangeData);
   };
-  
+
+  const handleCellClick = (_e, { value }) => {
+    setYear(value);
+    setCalendarContext(calendarContext - 1);
+  };
+
   const handleControls = (_e, { controlname }) => {
     switch (calendarContext) {
       case 0:
@@ -99,7 +124,6 @@ const Calendar = (props) => {
     }
   };
 
-
   return (
     <React.Fragment>
       <Container className="cal-container">
@@ -112,8 +136,11 @@ const Calendar = (props) => {
             year={year}
             yearRange={yearRange}
           />
-          <CalendarWeekHeader {...props} />
-          <CalendarContextServer context={calendarContext} />
+          <CalendarContextServer
+            context={calendarContext}
+            handleCellClick={handleCellClick}
+            yearRangeArray={yearRangeArray}
+          />
         </Grid>
       </Container>
     </React.Fragment>

@@ -14,7 +14,7 @@ const CalendarCell = (props) => {
       case 1:
         return <MonthView />;
       case 2:
-        return <YearView />;
+        return <YearView {...props} />;
     }
   };
 

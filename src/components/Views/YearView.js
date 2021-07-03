@@ -1,11 +1,38 @@
-import React from "react";
-import { Grid } from "semantic-ui-react";
+import React, { useState, useEffect } from "react";
+import { Button, Grid, Table } from "semantic-ui-react";
+
+import { splitArray } from "../../helpers/calendar";
 
 const YearView = (props) => {
-  const {} = props;
-  
+  const { yearRangeArray, handleCellClick } = props;
+
+  const rowCount = 3;
+  const colCount = 4;
+
+  const [arrayChunks, setArrayChunks] = useState([]);
+
+  useEffect(() => {
+    setArrayChunks(splitArray(yearRangeArray, rowCount, colCount));
+  }, [yearRangeArray])
+
   return (
-    <>Year</>
+    <table className="year-grid-table" >
+          <tbody>
+            {arrayChunks.map((chunk, index) => {
+              return (
+                <tr key={index}>
+                  { chunk.map((year, index) => {
+                    return (
+                      <td className="year-grid-table-cell" key={index}>
+                        <Button value={year} className="year-grid-table-cell-btn" style={{width: "100%", height: "100%"}} onClick={handleCellClick}>{year}</Button>
+                      </td>
+                    )
+                  })}
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
   );
 };
 

@@ -37,3 +37,20 @@ body {
   color: #000000de;
   text-align: center;
 }
+
+.year-grid-table {
+  border: solid 1px #22242626;
+  border-collapse: collapse;
+  table-layout: auto;
+  width: 100%;
+  height: 500px;
+}
+
+.year-grid-table-cell {
+  border: solid 1px #22242626;
+}
+
+.year-grid-table-cell-btn {
+  border: solid 1px #22242626 !important;
+  font-size: 16px !important;
+}

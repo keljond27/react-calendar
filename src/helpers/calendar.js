@@ -113,12 +113,33 @@ export const getMomentMonth = (month, format = "MMMM") => {
   return moment(month, "M").format(format);
 }
 
-export const calculateYearRange = (year, gridCount, index) => {
-  let rangeCount = index ? index : Math.floor(year/gridCount);
+export const calculateYearRange = (year, gridCount, index = null) => {
+  let rangeCount = index != null ? index : Math.floor(year/gridCount);
   let rangeStart = rangeCount*gridCount;
   let rangeEnd = rangeStart + (gridCount - 1);
+  let yearRangeArray = [];
+
+  for (let i = rangeStart; i <= rangeEnd; i++) {
+    yearRangeArray.push(i);
+  }
   
-  return [rangeStart, rangeEnd, rangeCount]
+  return [rangeStart, rangeEnd, rangeCount, yearRangeArray];
+}
+
+export const splitArray = (arr, split, elementsPerSplit) => {
+  let splitArray = [];
+
+  let count = 0;
+
+  for (let r = 0; r < split; r++) {
+    let tempArr = [];
+    for (let c = 0; c < elementsPerSplit; c++) {
+      tempArr.push(arr[count]);
+      count++;
+    }
+    splitArray.push(tempArr);
+  }
+  return splitArray;
 }
 
 

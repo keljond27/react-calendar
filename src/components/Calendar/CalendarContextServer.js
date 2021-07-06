@@ -1,5 +1,4 @@
 import React from "react";
-import { Grid } from "semantic-ui-react";
 import DayView from "../Views/DayView";
 import MonthView from "../Views/MonthView";
 import YearView from "../Views/YearView";
@@ -10,9 +9,9 @@ const CalendarCell = (props) => {
   const setContextContent = () => {
     switch (context) {
       case 0:
-        return <DayView />;
+        return <DayView {...props} />;
       case 1:
-        return <MonthView />;
+        return <MonthView {...props} />;
       case 2:
         return <YearView {...props} />;
     }

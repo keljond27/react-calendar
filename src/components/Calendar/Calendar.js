@@ -1,18 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Table, Container, Grid } from "semantic-ui-react";
-import moment from "moment";
+import { Container, Grid } from "semantic-ui-react";
 import {
-  WEEK_DAYS,
   THIS_MONTH,
   THIS_YEAR,
   CONTROLS,
-  CALENDAR_MONTHS,
-  getMomentMonth,
   calculateYearRange,
 } from "../../helpers/calendar";
 
 import CalendarControlHeader from "./CalendarControlHeader";
-import CalendarWeekHeader from "./CalendarWeekHeader";
 import CalendarContextServer from "./CalendarContextServer";
 
 const Calendar = (props) => {
@@ -61,21 +56,21 @@ const Calendar = (props) => {
   const handleDayViewControls = (controlname) => {
     switch (true) {
       case controlname == CONTROLS.NEXT &&
-        month == CALENDAR_MONTHS.DECEMBER.index:
-        setMonth(1);
+        month == 11:
+        setMonth(0);
         setYear(year + 1);
         break;
       case controlname == CONTROLS.NEXT &&
-        month !== CALENDAR_MONTHS.DECEMBER.index:
+        month != 11:
         setMonth(month + 1);
         break;
       case controlname == CONTROLS.BACK &&
-        month == CALENDAR_MONTHS.JANUARY.index:
-        setMonth(12);
+        month == 0:
+        setMonth(11);
         setYear(year - 1);
         break;
       case controlname == CONTROLS.BACK &&
-        month !== CALENDAR_MONTHS.JANUARY.index:
+        month != 0:
         setMonth(month - 1);
         break;
     }
@@ -105,8 +100,9 @@ const Calendar = (props) => {
     resetYearRangeData(yearRangeData);
   };
 
-  const handleCellClick = (_e, { value }) => {
-    setYear(value);
+  const handleCellClick = (_e, { name, value }) => {
+    name == "year" && setYear(value);
+    name == "month" && setMonth(value);
     setCalendarContext(calendarContext - 1);
   };
 
@@ -140,6 +136,8 @@ const Calendar = (props) => {
             context={calendarContext}
             handleCellClick={handleCellClick}
             yearRangeArray={yearRangeArray}
+            month={month}
+            year={year}
           />
         </Grid>
       </Container>

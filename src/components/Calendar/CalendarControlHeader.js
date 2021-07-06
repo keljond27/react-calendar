@@ -1,19 +1,21 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Table, Grid, Icon, Container } from "semantic-ui-react";
-import moment from "moment";
-
+import { Grid, Icon } from "semantic-ui-react";
+import { convertObjToArr, CALENDAR_MONTHS } from "../../helpers/calendar";
+ 
 import { CONTROLS } from "../../helpers/calendar"
 
 const CalendarControlHeader = (props) => {
   const { context, handleContextChange, handleControls, month, year, yearRange } = props;
+  
+  const monthArray = convertObjToArr(CALENDAR_MONTHS, true);
 
   const setContextContent = () => {
     switch (context) {
       case 0:
         return (
           <>
-            {moment(month, "M").format("MMMM")} {moment(year, "YYYY").format("YYYY")}
+            {monthArray[month]} - {year}
           </>
         );
       case 1:

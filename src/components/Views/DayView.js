@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "semantic-ui-react";
-import calendar, {splitArray} from "../../helpers/calendar";
+import calendar, {getJulianDate, splitArray} from "../../helpers/calendar";
 import CalendarWeekHeader from "../Calendar/CalendarWeekHeader";
 
 
@@ -36,16 +36,18 @@ const DayView = (props) => {
             return (
               <tr key={index}>
                 {chunk.map((day, index) => {
+                  let julian = getJulianDate(day[0], day[1], day[2])
                   return (
                     <td className="month-grid-table-cell" key={index}>
                       <Button
                         name="month"
-                        value={day && day[2]}
+                        value={day[2]}
                         className="month-grid-table-cell-btn"
                         style={{ width: "100%", height: "100%" }}
                         onClick={handleCellClick}
+                        disabled={day[1] != (month+1)}
                       >
-                        {day && day[2]}
+                        {day[2]} / {julian}
                       </Button>
                     </td>
                   );

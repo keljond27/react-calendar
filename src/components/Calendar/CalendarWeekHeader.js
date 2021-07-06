@@ -5,13 +5,11 @@ import CalendarWeekCell from "./CalendarWeekCell";
 
 const CalendarWeekHeader = (props) => {
   return (
-    <>
-      <Grid.Row>
-        {Object.keys(WEEK_DAYS).map((day, index) => {
-          return <CalendarWeekCell day={day} key={index} />;
-        })}
-      </Grid.Row>
-    </>
+    <tr>
+      {Object.keys(WEEK_DAYS).map((day, index) => {
+        return <CalendarWeekCell day={day} key={index} />;
+      })}
+    </tr>
   );
 };
 

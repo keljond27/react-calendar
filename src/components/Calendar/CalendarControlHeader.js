@@ -59,6 +59,10 @@ const CalendarControlHeader = (props) => {
 CalendarControlHeader.proptypes = {
   month: PropTypes.number,
   year: PropTypes.number,
+  context: PropTypes.number, 
+  handleContextChange: PropTypes.func,
+  handleControls: PropTypes.func,
+  yearRange: PropTypes.array
 };
 
 export default CalendarControlHeader;

@@ -5,9 +5,9 @@ const CalendarCell = (props) => {
   const { keyValue, index, className, onClick, children } = props;
   
   return (
-    <Grid.Column key={keyValue} index={index} className={className} onClick={onClick}>
+    <td key={keyValue} index={index} className={className} onClick={onClick}>
       {children}
-    </Grid.Column>
+    </td>
   );
 };
 

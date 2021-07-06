@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button } from "semantic-ui-react";
-import calendar, { getJulianDate, splitArray } from "../../helpers/calendar";
-import CalendarWeekHeader from "../Calendar/CalendarWeekHeader";
+import calendar, { getJulianDate, splitArray, WEEK_DAYS } from "../../helpers/calendar";
 
 const DayView = (props) => {
   const { handleCellClick, month, year, day, markedDates, markToday } = props;
@@ -75,9 +74,18 @@ const DayView = (props) => {
 
   return (
     <>
-      <CalendarWeekHeader {...props} />
       <table className="day-grid-table">
         <tbody>
+          <tr>
+            {Object.keys(WEEK_DAYS).map((day, index) => {
+              return (
+                <td key={index} className="cal-week-header-cell">
+                  {WEEK_DAYS[day].toUpperCase()}
+                </td>
+              );
+            })}
+          </tr>
+
           {arrayChunks.map((chunk, index) => {
             return (
               <tr key={index}>
@@ -124,7 +132,9 @@ const DayView = (props) => {
                             )} !important;
                           }
                           .today {
-                            border: solid 2px ${markToday[1] || "black"} !important;
+                            border: solid 2px ${
+                              markToday[1] || "black"
+                            } !important;
                           }
                         `}
                       </style>

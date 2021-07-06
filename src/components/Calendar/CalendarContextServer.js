@@ -3,7 +3,7 @@ import DayView from "../Views/DayView";
 import MonthView from "../Views/MonthView";
 import YearView from "../Views/YearView";
 
-const CalendarCell = (props) => {
+const CalendarContextServer = (props) => {
   const { context } = props;
 
   const setContextContent = () => {
@@ -20,4 +20,4 @@ const CalendarCell = (props) => {
   return <>{setContextContent()}</>;
 };
 
-export default CalendarCell;
+export default CalendarContextServer;

@@ -147,24 +147,23 @@ export const getJulianDate = (year, month, day) => {
   let diff =
     now -
     start +
-    (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000;
+    (start.getTimezoneOffset() - now.getTimezoneOffset()) * 60 * 1000; // offset = 3600000
   let oneDay = 1000 * 60 * 60 * 24;
-  let output = Math.floor(diff / oneDay);
+  let output = Math.floor(diff / oneDay); //trimming the 0.95833333333334
   return output;
 };
 
 export const getDateFromJulianNumber = (jDay) => {
-  let magicNum = 0.95833333333334;
+  let magicNum = 0.95833333333334; //rounded down from original calculation
   jDay = jDay + magicNum;
   let oneDay = 1000 * 60 * 60 * 24;
   let product = jDay * oneDay;
   let start = new Date(new Date().getFullYear(), 0, 0);
-  let output = start.getTime() + product - 3600000;
-  return new Date(output);
+  console.log((start.getTimezoneOffset() * 60 * 1000)/2)
+  let output = start.getTime() + product - 3600000; //accounting for offset
+  let newDate = new Date(output);
+  return [newDate.getFullYear(), newDate.getMonth(), newDate.getDate()]
 };
-
-console.log();
-console.log(getDateFromJulianNumber(312));
 
 export const isBeforeDay = (date1, date2) => +dateDiff(date1, date2) < 0;
 

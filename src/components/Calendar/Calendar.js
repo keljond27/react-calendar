@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Container, Grid } from "semantic-ui-react";
+import PropTypes from "prop-types";
 import {
   THIS_MONTH,
   THIS_YEAR,
@@ -11,11 +12,13 @@ import CalendarControlHeader from "./CalendarControlHeader";
 import CalendarContextServer from "./CalendarContextServer";
 
 const Calendar = (props) => {
+  const { setDateSelected, defaultSelected, markToday, locateDate } = props;
   const yearGridCount = 12;
 
   const [calendarContext, setCalendarContext] = useState(0);
   const [month, setMonth] = useState(THIS_MONTH);
   const [year, setYear] = useState(THIS_YEAR);
+  const [selectedDay, setSelectedDay] = useState(defaultSelected);
   const [yearRange, setYearRange] = useState([]);
   const [yearRangeIndex, setYearRangeIndex] = useState([]);
   const [yearRangeArray, setYearRangeArray] = useState([]);
@@ -33,6 +36,10 @@ const Calendar = (props) => {
   useEffect(() => {
     resetYearRangeData();
   }, []);
+
+  useEffect(() => {
+    setDateSelected(selectedDay);
+  }, [selectedDay]);
 
   const handleContextChange = () => {
     let context = 0;
@@ -101,9 +108,12 @@ const Calendar = (props) => {
   };
 
   const handleCellClick = (_e, { name, value }) => {
-    name == "year" && setYear(value);
-    name == "month" && setMonth(value);
-    setCalendarContext(calendarContext - 1);
+    if (name !== "day") {
+      name == "year" && setYear(value);
+      name == "month" && setMonth(value);
+      setCalendarContext(calendarContext - 1);
+    }
+    name == "day" && setSelectedDay(value);
   };
 
   const handleControls = (_e, { controlname }) => {
@@ -138,11 +148,20 @@ const Calendar = (props) => {
             yearRangeArray={yearRangeArray}
             month={month}
             year={year}
+            day={selectedDay}
+            {...props}
           />
         </Grid>
       </Container>
     </React.Fragment>
   );
 };
+
+Calendar.proptypes = {
+  locateDate: PropTypes.func,
+  markedDates: PropTypes.array,
+  markToday: PropTypes.bool,
+  setDateSelected: PropTypes.func,
+}
 
 export default Calendar;

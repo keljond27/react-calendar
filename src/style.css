@@ -1,7 +1,7 @@
 html,
 body {
   margin: 0;
-  background-color: aquamarine;
+  background-color: white;
 }
 
 .cal-container {
@@ -48,6 +48,7 @@ body {
 
 .year-grid-table-cell {
   border: solid 1px #22242626;
+  width: 25%;
 }
 
 .year-grid-table-cell-btn {
@@ -65,9 +66,51 @@ body {
 
 .month-grid-table-cell {
   border: solid 1px #22242626;
+  width: 25%;
 }
 
 .month-grid-table-cell-btn {
   border: solid 1px #22242626 !important;
   font-size: 16px !important;
+}
+
+.day-grid-table {
+  table-layout: fixed !important;
+  border: solid 1px #22242626;
+  border-collapse: collapse;
+  table-layout: auto;
+  width: 100%;
+  height: 500px;
+}
+
+.day-grid-table-cell {
+  min-height: 80px;
+  height: 80px !important;
+  border: solid 1px #22242626;
+}
+
+.day-grid-table-cell-btn {
+  border: solid 1px #22242626 !important;
+  font-size: 16px !important;
+}
+
+.year-grid-table-cell-btn,
+.month-grid-table-cell-btn,
+.day-grid-table-cell-btn {
+  border-radius: 0 !important;
+  border: none;
+  padding: 0 5px 0 !important;
+  background-color: transparent !important;
+}
+
+.day-grid-table-cell-btn.selected {
+  color: white !important;
+  background-color: #D35447 !important;
+}
+
+.year-grid-table-cell,
+.month-grid-table-cell,
+.day-grid-table-cell {
+  padding: 0;
+  border: none;
 }
